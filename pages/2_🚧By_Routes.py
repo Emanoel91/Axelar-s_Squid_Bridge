@@ -146,15 +146,14 @@ def load_data(start_date, end_date):
     ORDER BY 4 DESC
     """
     df = pd.read_sql(query, conn)
-
+    df.index = df.index + 1
     return df
 
 # --- Query execution ----------------------------------------------------------------------------------------------
 df = pd.read_sql(query, conn)
 
 # --- Show Table ---------------------------------------------------------------------------------------------------
-# تغییر ایندکس از صفر به یک
-df.index = df.index + 1
+
 st.write("### Squid Bridging Routes' Stats")
 st.dataframe(df)
 
