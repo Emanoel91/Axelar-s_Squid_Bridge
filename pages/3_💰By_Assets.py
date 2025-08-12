@@ -253,7 +253,7 @@ FROM axelar_service
            ROUND((SUM(amount_usd)/COUNT(DISTINCT user)),1) AS "Avg Volume per Bridgor (USD)",
            ROUND(COUNT(DISTINCT id)/COUNT(DISTINCT user)) AS "Avg Bridge Count per User"
     FROM overview
-    WHERE created_at BETWEEN '{start_date}' AND '{end_date}'
+    WHERE created_at BETWEEN '{start_date}' AND '{end_date}' AND "Symbol" is not null
     GROUP BY 1
     ORDER BY 4 DESC
     """
