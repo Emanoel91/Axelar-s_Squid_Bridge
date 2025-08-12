@@ -146,22 +146,31 @@ df_kpi = load_kpi_data(timeframe, start_date, end_date)
 # --- KPI Row ------------------------------------------------------------------------------------------------------
 col1, col2, col3, col4 = st.columns(4)
 
+def format_value(value, unit):
+    if unit == 'B':
+        return f"${value / 1_000_000_000:.2f}B"
+    elif unit == 'M':
+        return f"{value / 1_000_000:.2f}M Txns"
+    elif unit == 'K':
+        return f"{value / 1_000:.2f}K"
+    return str(value)
+
 col1.metric(
     label="Bridged Volume",
-    value=f"${df_kpi['VOLUME_OF_TRANSFERS'][0]:,}"
+    value=format_value(df_kpi['VOLUME_OF_TRANSFERS'][0], 'B')
 )
 
 col2.metric(
     label="Bridges",
-    value=f"{df_kpi['NUMBER_OF_TRANSFERS'][0]:,} Txns"
+    value=format_value(df_kpi['NUMBER_OF_TRANSFERS'][0], 'M')
 )
 
 col3.metric(
     label="Bridgors",
-    value=f"{df_kpi['NUMBER_OF_USERS'][0]:,} Addresses"
+    value=f"{df_kpi['NUMBER_OF_USERS'][0] / 1_000:.2f}K Addresses"
 )
 
 col4.metric(
     label="Avg Bridge Volume",
-    value=f"${df_kpi['AVG_BRIDGES_VOLUME'][0]:,}"
+    value=f"${df_kpi['AVG_BRIDGES_VOLUME'][0] / 1_000:.2f}K"
 )
