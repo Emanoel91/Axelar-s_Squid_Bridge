@@ -305,7 +305,7 @@ col1.plotly_chart(fig1, use_container_width=True)
 col2.plotly_chart(fig2, use_container_width=True)
 
 # --- Row 3 ----------------------------------------------------------------------------------------------------------
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=86400)
 def load_bridge_size_data(start_date, end_date):
     query = f"""
     WITH overview AS (
