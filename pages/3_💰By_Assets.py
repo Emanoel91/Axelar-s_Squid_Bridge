@@ -286,7 +286,7 @@ fig1 = px.bar(
     color="Symbol"
 )
 fig1.update_traces(texttemplate='%{text:,.0f}', textposition='outside')
-fig1.update_layout(title="Top 10 Symbols by Volume (USD)")
+fig1.update_layout(title="Top 10 Tokens by Volume (USD)")
 
 # Top 10 by Bridges
 top_bridges = df.nlargest(10, "Bridges")
@@ -298,7 +298,7 @@ fig2 = px.bar(
     color="Symbol"
 )
 fig2.update_traces(texttemplate='%{text:,.0f}', textposition='outside')
-fig2.update_layout(title="Top 10 Symbols by Bridges")
+fig2.update_layout(title="Top 10 Tokens by Bridges")
 
 col1.plotly_chart(fig1, use_container_width=True)
 col2.plotly_chart(fig2, use_container_width=True)
