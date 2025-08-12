@@ -32,7 +32,7 @@ timeframe = st.selectbox("Select Time Frame", ["month", "week", "day"])
 start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
 end_date = st.date_input("End Date", value=pd.to_datetime("2025-07-31"))
 
-# --- Cache the data loading function --------------------------------------------------------------------------------
+# --- Row (1) --------------------------------------------------------------------------------
 @st.cache_data(ttl=3600)
 def load_data(start_date, end_date):
     query = f"""
@@ -148,22 +148,21 @@ def load_data(start_date, end_date):
     ORDER BY 4 DESC
     """
     df = pd.read_sql(query, conn)
-    df.index = df.index + 1  # ایندکس از 1 شروع شود
+    df.index = df.index + 1  
     return df
 
-# --- Load Data -----------------------------------------------------------------------------------------------------
 df = load_data(start_date, end_date)
 
-# --- Display Table -------------------------------------------------------------------------------------------------
+# --- Row (1). Display Table -------------------------------------------------------------------------------------------------
 st.write("### Squid Bridging Routes' Stats")
 st.dataframe(df)
 
-# --- Plot Horizontal Bar Charts -----------------------------------------------------------------------------------
+# --- Row (2,3). Plot Horizontal Bar Charts -----------------------------------------------------------------------------------
 top_10_volume = df.nlargest(10, "Volume")
 top_10_bridges = df.nlargest(10, "Bridges")
 
 fig_volume = px.bar(
-    top_10_volume[::-1],  # معکوس برای اینکه بالاترین‌ها بالا نمایش داده شوند
+    top_10_volume[::-1],  
     x="Volume",
     y="Route",
     orientation='h',
