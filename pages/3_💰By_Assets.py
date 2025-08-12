@@ -271,6 +271,7 @@ for col in df_display.columns[1:]:
 df_display.index = df_display.index + 1
 
 # --- Show Table ---
+st.write("### Squid's Bridged Assets Stats")
 st.dataframe(df_display)
 
 # --- Charts ---
