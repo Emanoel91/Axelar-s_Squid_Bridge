@@ -450,11 +450,11 @@ with col1:
 with col2:
     fig_b2 = go.Figure()
     fig_b2.add_trace(go.Bar(
-        x=df_brg["Date"], y=df_brg["Total Bridgors"], name="Total Bridgors"
+        x=df_brg["Date"], y=df_brg["Bridgors Growth"], name="Bridgors Growth"
     ))
     fig_b2.update_layout(
         title="Total New Bridgors Over Time",
-        yaxis=dict(title="Total Bridgors")
+        yaxis=dict(title="Bridgors Growth")
     )
     st.plotly_chart(fig_b2, use_container_width=True)
 
