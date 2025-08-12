@@ -3,7 +3,7 @@ import streamlit as st
 # --- Page Config: Tab Title & Icon ---
 st.set_page_config(
     page_title="Axelar's Squid Bridge",
-    page_icon="https://axelarscan.io/logos/accounts/squid.svg",
+    page_icon="https://pbs.twimg.com/profile_images/1938625911743524864/ppNPPF84_400x400.jpg",
     layout="wide"
 )
 
