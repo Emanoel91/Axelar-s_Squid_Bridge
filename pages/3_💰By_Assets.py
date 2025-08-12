@@ -700,10 +700,6 @@ FROM axelar_service
     """
     return pd.read_sql(query, conn)
 
-start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
-end_date = st.date_input("End Date", value=pd.to_datetime("today"))
-time_frame = st.selectbox("Time Frame", ["day", "week", "month"])
-
 df = load_bridges_by_asset(start_date, end_date, time_frame)
 
 symbols = sorted(df["Symbol"].unique())
