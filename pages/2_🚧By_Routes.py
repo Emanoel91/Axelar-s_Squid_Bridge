@@ -146,7 +146,7 @@ def load_data(start_date, end_date):
     ORDER BY 4 DESC
     """
     df = pd.read_sql(query, conn)
-    df.index = df.index + 1
+
     return df
 
 # --- Query execution ----------------------------------------------------------------------------------------------
