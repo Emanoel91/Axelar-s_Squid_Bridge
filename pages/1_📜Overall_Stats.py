@@ -27,7 +27,6 @@ conn = snowflake.connector.connect(
     database="AXELAR",
     schema="PUBLIC"
 )
-
 # --- Date Inputs ---------------------------------------------------------------------------------------------------
 timeframe = st.selectbox("Select Time Frame", ["month", "week", "day"])
 start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
@@ -132,7 +131,7 @@ def load_kpi_data(timeframe, start_date, end_date):
         COUNT(DISTINCT id) AS Number_of_Transfers, 
         COUNT(DISTINCT user) AS Number_of_Users, 
         ROUND(SUM(amount_usd)) AS Volume_of_Transfers,
-        ROUND(avg(amount_usd)) as Avg_Bridges_Volume
+        ROUND(avg(amount_usd)) as AVG_BRIDGES_VOLUME
     FROM axelar_service
     WHERE created_at::date >= '{start_str}' 
       AND created_at::date <= '{end_str}'
@@ -164,5 +163,5 @@ col3.metric(
 
 col4.metric(
     label="Avg Bridge Volume",
-    value=f"${df_kpi['Avg_Bridges_Volume'][0]:,}"
+    value=f"${df_kpi['AVG_BRIDGES_VOLUME'][0]:,}"
 )
