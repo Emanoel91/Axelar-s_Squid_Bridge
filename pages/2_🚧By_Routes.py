@@ -197,6 +197,11 @@ def load_data(start_date, end_date):
 
 df = load_data(start_date, end_date)
 
+# --- Format Numbers ---
+df = df.copy()
+for col in df.columns[1:]:
+    df[col] = df[col].apply(lambda x: f"{x:,.0f}")
+    
 # --- Row (1). Display Table -------------------------------------------------------------------------------------------------
 st.write("### Squid Bridging Routes' Stats")
 st.dataframe(df)
