@@ -77,6 +77,14 @@ timeframe = st.selectbox("Select Time Frame", ["month", "week", "day"])
 start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
 end_date = st.date_input("End Date", value=pd.to_datetime("2025-07-31"))
 
+st.markdown(
+    """
+    <div style="background-color:#e2ff88; padding:1px; border-radius:10px;">
+        <h2 style="color:#000000; text-align:center;">📤Default Source Chain Results</h2>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 chain_options = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche", "Babylon", "Base", "Binance", "Blast", 
                  "C4e", "Celestia", "Celo", "Chihuahua", "Comdex", "Carbon", "Crescent", "Cosmoshub", "Elys", "Evmos", "Fetch", "Fantom", "Filecoin", "Fraxtal", "Immutable",
                   "Injective", "Juno", "Kava", "Kujira", "Lava", "Linea", "Mantle", "Moonbeam", "Neutron", "Nolus", "Optimism",
@@ -88,15 +96,6 @@ chain_filter = st.selectbox(
     index=chain_options.index("Ethereum")
 )
 # --- Row (1) ------------------------------------------------------------------------------------------
-st.markdown(
-    """
-    <div style="background-color:#bcbcbc; padding:1px; border-radius:10px;">
-        <h2 style="color:#ffffff; text-align:center;">📤Default Source Chain Results</h2>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
 @st.cache_data(ttl=3600)
 def load_data(start_date, end_date, chain):
     query = f"""
