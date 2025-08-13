@@ -71,18 +71,13 @@ conn = snowflake.connector.connect(
     database="AXELAR",
     schema="PUBLIC"
 )
-# --- Date Inputs ---------------------------------------------------------------------------------------------------
+# --- Filters ----------------------------------------------------------------------------------------------------------
 timeframe = st.selectbox("Select Time Frame", ["month", "week", "day"])
 start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
 end_date = st.date_input("End Date", value=pd.to_datetime("2025-07-31"))
-# --- Chain Filter ---------------------------------------------------------------------------------------------------
+
+chain_options = ["All", "Ethereum", "Avalanche", "Polygon", "BSC", "Fantom", "Arbitrum", "Optimism", "Base"]
 chain_filter = st.selectbox(
-    "Select Source Chain",
-    options=["All"] + [
-        "Ethereum", "Avalanche", "Polygon", "BSC", "Fantom", "Arbitrum", "Optimism", "Base"  # لیست نمونه
-    ]
-    # پیش‌فرض روی Ethereum
-    chain_filter = st.selectbox(
     "Select Source Chain",
     options=chain_options,
     index=chain_options.index("Ethereum")
