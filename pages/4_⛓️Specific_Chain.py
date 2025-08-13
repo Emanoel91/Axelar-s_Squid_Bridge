@@ -536,7 +536,7 @@ def load_data_pie(start_date, end_date, chain):
         ROUND(SUM(amount_usd)) AS "VOLUME (USD)",
         COUNT(DISTINCT id) AS "BRIDGES"
     FROM overview
-    WHERE created_at::date >= '{start_date}'
+    WHERE "SYMBOL" is not null AND created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
       {"AND LOWER(source_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
     GROUP BY 1, 2
