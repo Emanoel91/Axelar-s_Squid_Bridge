@@ -547,14 +547,13 @@ def load_data_pie(start_date, end_date, chain):
 # --- Load Data -----
 df_load_data_pie = load_data_pie(start_date, end_date, chain_filter)
 
-# اگر داده‌ای نیست
 if df.empty:
     st.warning("No data found for the selected filters.")
 else:
     # Pie Chart برای Volume
-    fig1 = px.pie(df_load_data_pie, values="VOLUME (USD)", names="SYMBOL", title="Volume (USD) by Symbol")
+    fig1 = px.pie(df_load_data_pie, values="VOLUME (USD)", names="SYMBOL", title="Bridge Volume By Token ($USD)")
     st.plotly_chart(fig1, use_container_width=True)
 
     # Pie Chart برای Bridges
-    fig2 = px.pie(df_load_data_pie, values="BRIDGES", names="SYMBOL", title="Bridges by Symbol")
+    fig2 = px.pie(df_load_data_pie, values="BRIDGES", names="SYMBOL", title="Bridge Count By Token")
     st.plotly_chart(fig2, use_container_width=True)
