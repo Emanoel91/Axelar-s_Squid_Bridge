@@ -86,7 +86,7 @@ chain_filter = st.selectbox(
     options=chain_options,
     index=chain_options.index("Ethereum")
 )
-# --- Cached Query Function ------------------------------------------------------------------------------------------
+# --- Row (1) ------------------------------------------------------------------------------------------
 @st.cache_data(ttl=3600)
 def load_data(start_date, end_date, chain):
     query = f"""
@@ -209,10 +209,10 @@ FROM axelar_service
     """
     return pd.read_sql(query, conn)
 
-# --- Load Data ------------------------------------------------------------------------------------------------------
+# --- Load Data ---
 df = load_data(start_date, end_date, chain_filter)
 
-# --- KPIs -----------------------------------------------------------------------------------------------------------
+# --- KPIs -------
 if not df.empty:
     total_volume = df["Volume (USD)"].sum()
     avg_volume = df["Avg Volume per Bridge (USD)"].mean()
@@ -224,5 +224,164 @@ if not df.empty:
     col2.metric("Avg Volume per Bridge (USD)", f"${avg_volume:,.1f}")
     col3.metric("Bridges", f"{total_bridges:,} Txns")
     col4.metric("Bridgors", f"{total_bridgors:,} Wallets")
+else:
+    st.warning("No data available for the selected filters.")
+
+# --- Row (2) --------------------------------------------------------------------------------------------
+@st.cache_data(ttl=3600)
+def load_data_volume_bridges(start_date, end_date, chain, timeframe):
+    query = f"""
+    WITH overview AS (
+        WITH axelar_service AS (
+            SELECT 
+                created_at, 
+                LOWER(data:send:original_source_chain) AS source_chain, 
+                LOWER(data:send:original_destination_chain) AS destination_chain,
+                recipient_address AS user, 
+                CASE 
+                  WHEN IS_ARRAY(data:send:amount) THEN NULL
+                  WHEN IS_OBJECT(data:send:amount) THEN NULL
+                  WHEN TRY_TO_DOUBLE(data:send:amount::STRING) IS NOT NULL THEN TRY_TO_DOUBLE(data:send:amount::STRING)
+                  ELSE NULL
+                END AS amount,
+                CASE 
+                  WHEN IS_ARRAY(data:send:amount) OR IS_ARRAY(data:link:price) THEN NULL
+                  WHEN IS_OBJECT(data:send:amount) OR IS_OBJECT(data:link:price) THEN NULL
+                  WHEN TRY_TO_DOUBLE(data:send:amount::STRING) IS NOT NULL AND TRY_TO_DOUBLE(data:link:price::STRING) IS NOT NULL 
+                    THEN TRY_TO_DOUBLE(data:send:amount::STRING) * TRY_TO_DOUBLE(data:link:price::STRING)
+                  ELSE NULL
+                END AS amount_usd,
+                CASE 
+                  WHEN IS_ARRAY(data:send:fee_value) THEN NULL
+                  WHEN IS_OBJECT(data:send:fee_value) THEN NULL
+                  WHEN TRY_TO_DOUBLE(data:send:fee_value::STRING) IS NOT NULL THEN TRY_TO_DOUBLE(data:send:fee_value::STRING)
+                  ELSE NULL
+                END AS fee,
+                id, 
+                'Token Transfers' AS "Service", 
+                data:link:asset::STRING AS raw_asset
+            FROM axelar.axelscan.fact_transfers
+            WHERE status = 'executed'
+              AND simplified_status = 'received'
+              AND (
+                  sender_address ilike '%0xce16F69375520ab01377ce7B88f5BA8C48F8D666%'
+                  or sender_address ilike '%0x492751eC3c57141deb205eC2da8bFcb410738630%'
+                  or sender_address ilike '%0xDC3D8e1Abe590BCa428a8a2FC4CfDbD1AcF57Bd9%'
+                  or sender_address ilike '%0xdf4fFDa22270c12d0b5b3788F1669D709476111E%'
+                  or sender_address ilike '%0xe6B3949F9bBF168f4E3EFc82bc8FD849868CC6d8%'
+              )
+            UNION ALL
+            SELECT  
+                created_at,
+                LOWER(data:call.chain::STRING) AS source_chain,
+                LOWER(data:call.returnValues.destinationChain::STRING) AS destination_chain,
+                data:call.transaction.from::STRING AS user,
+                CASE 
+                  WHEN IS_ARRAY(data:amount) OR IS_OBJECT(data:amount) THEN NULL
+                  WHEN TRY_TO_DOUBLE(data:amount::STRING) IS NOT NULL THEN TRY_TO_DOUBLE(data:amount::STRING)
+                  ELSE NULL
+                END AS amount,
+                CASE 
+                  WHEN IS_ARRAY(data:value) OR IS_OBJECT(data:value) THEN NULL
+                  WHEN TRY_TO_DOUBLE(data:value::STRING) IS NOT NULL THEN TRY_TO_DOUBLE(data:value::STRING)
+                  ELSE NULL
+                END AS amount_usd,
+                COALESCE(
+                  CASE 
+                    WHEN IS_ARRAY(data:gas:gas_used_amount) OR IS_OBJECT(data:gas:gas_used_amount) 
+                      OR IS_ARRAY(data:gas_price_rate:source_token.token_price.usd) OR IS_OBJECT(data:gas_price_rate:source_token.token_price.usd) 
+                    THEN NULL
+                    WHEN TRY_TO_DOUBLE(data:gas:gas_used_amount::STRING) IS NOT NULL 
+                      AND TRY_TO_DOUBLE(data:gas_price_rate:source_token.token_price.usd::STRING) IS NOT NULL 
+                    THEN TRY_TO_DOUBLE(data:gas:gas_used_amount::STRING) * TRY_TO_DOUBLE(data:gas_price_rate:source_token.token_price.usd::STRING)
+                    ELSE NULL
+                  END,
+                  CASE 
+                    WHEN IS_ARRAY(data:fees:express_fee_usd) OR IS_OBJECT(data:fees:express_fee_usd) THEN NULL
+                    WHEN TRY_TO_DOUBLE(data:fees:express_fee_usd::STRING) IS NOT NULL THEN TRY_TO_DOUBLE(data:fees:express_fee_usd::STRING)
+                    ELSE NULL
+                  END
+                ) AS fee,
+                id, 
+                'GMP' AS "Service", 
+                data:symbol::STRING AS raw_asset
+            FROM axelar.axelscan.fact_gmp 
+            WHERE status = 'executed'
+              AND simplified_status = 'received'
+              AND (
+                  data:approved:returnValues:contractAddress ilike '%0xce16F69375520ab01377ce7B88f5BA8C48F8D666%'
+                  or data:approved:returnValues:contractAddress ilike '%0x492751eC3c57141deb205eC2da8bFcb410738630%'
+                  or data:approved:returnValues:contractAddress ilike '%0xDC3D8e1Abe590BCa428a8a2FC4CfDbD1AcF57Bd9%'
+                  or data:approved:returnValues:contractAddress ilike '%0xdf4fFDa22270c12d0b5b3788F1669D709476111E%'
+                  or data:approved:returnValues:contractAddress ilike '%0xe6B3949F9bBF168f4E3EFc82bc8FD849868CC6d8%'
+              )
+        )
+        SELECT created_at, id, user, source_chain, destination_chain,
+               "Service", amount, amount_usd, fee
+        FROM axelar_service
+    )
+    SELECT 
+        DATE_TRUNC('{timeframe}', created_at) AS "Date",
+        source_chain AS "Source Chain", 
+        ROUND(SUM(amount_usd)) AS "Volume (USD)",
+        COUNT(DISTINCT id) AS "Bridges"
+    FROM overview
+    WHERE created_at::date >= '{start_date}'
+      AND created_at::date <= '{end_date}'
+      {"AND LOWER(source_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
+    GROUP BY 1, 2
+    ORDER BY 1
+    """
+    return pd.read_sql(query, conn)
+
+# --- Load Data -----
+df_vol_bridges = load_data_volume_bridges(start_date, end_date, chain_filter, timeframe)
+
+# --- Chart ---------
+if not df_vol_bridges.empty:
+    fig = go.Figure()
+
+    # Bar for Volume
+    fig.add_trace(go.Bar(
+        x=df_vol_bridges["Date"],
+        y=df_vol_bridges["Volume (USD)"],
+        name="Volume (USD)",
+        marker_color="rgba(55, 83, 109, 0.7)",
+        yaxis="y1"
+    ))
+
+    # Line for Bridges
+    fig.add_trace(go.Scatter(
+        x=df_vol_bridges["Date"],
+        y=df_vol_bridges["Bridges"],
+        name="Bridges",
+        mode="lines+markers",
+        line=dict(color="orange", width=2),
+        yaxis="y2"
+    ))
+
+    # Layout with 2 y-axis
+    fig.update_layout(
+        title="Volume vs Bridges Over Time",
+        xaxis=dict(title="Date"),
+        yaxis=dict(
+            title="Volume (USD)",
+            titlefont=dict(color="rgba(55, 83, 109, 1)"),
+            tickfont=dict(color="rgba(55, 83, 109, 1)"),
+            side="left"
+        ),
+        yaxis2=dict(
+            title="Bridges",
+            titlefont=dict(color="orange"),
+            tickfont=dict(color="orange"),
+            overlaying="y",
+            side="right"
+        ),
+        legend=dict(x=0.01, y=0.99),
+        barmode="group",
+        height=500
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
 else:
     st.warning("No data available for the selected filters.")
