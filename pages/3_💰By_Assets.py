@@ -717,21 +717,6 @@ else:
     # --- Bar + Line Chart ---
     fig = go.Figure()
 
-# ستون‌ها با لیبل بالای آنها
-fig.add_trace(go.Bar(
-    x=df_filtered["Date"],
-    y=df_filtered["Volume of Bridges (USD)"],
-    name="Volume of Bridges (USD)",
-    yaxis="y1",
-    marker_color="skyblue",
-    text=df_filtered["Volume of Bridges (USD)"],  # متن لیبل
-    textposition='outside'  # نمایش بیرون ستون
-))
-
-
-
-fig = go.Figure()
-
     fig.add_trace(go.Bar(
         x=df_filtered["Date"],
         y=df_filtered["Volume of Bridges (USD)"],
