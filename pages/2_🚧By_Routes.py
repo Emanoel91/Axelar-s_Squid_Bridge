@@ -224,7 +224,7 @@ fig_bridges = px.bar(
     orientation='h',
     text="Bridges",
     color="Route",
-    title="Top 10 Routes by Bridges"
+    title="Top 10 Routes by Transaction"
 )
 fig_bridges.update_traces(texttemplate='%{text}', textposition='outside')
 fig_bridges.update_layout(showlegend=False, yaxis=dict(autorange="reversed"))
