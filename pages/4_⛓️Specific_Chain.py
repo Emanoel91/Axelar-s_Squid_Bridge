@@ -339,18 +339,17 @@ df_vol_bridges = load_data_volume_bridges(start_date, end_date, chain_filter, ti
 
 # --- Chart ---------
 # Normalize column names to lowercase
-df.columns = [col.lower() for col in df.columns]
+df_vol_bridges.columns = [col.lower() for col in df_vol_bridges.columns]
 
-# بررسی اینکه دیتافریم خالی نباشه
-if df.empty:
+if df_vol_bridges.empty:
     st.warning("No data found for the selected filters.")
 else:
     fig = go.Figure()
 
     fig.add_trace(
         go.Bar(
-            x=df["DATE"],
-            y=df["VOLUME (USD)"],
+            x=df_vol_bridges["date"],
+            y=df_vol_bridges["volume (usd)"],
             name="Volume (USD)",
             yaxis="y1"
         )
@@ -358,8 +357,8 @@ else:
 
     fig.add_trace(
         go.Scatter(
-            x=df["DATE"],
-            y=df["BRIDGES"],
+            x=df_vol_bridges["date"],
+            y=df_vol_bridges["bridges"],
             name="Bridges",
             mode="lines+markers",
             yaxis="y2"
