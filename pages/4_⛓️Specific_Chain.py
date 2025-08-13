@@ -547,13 +547,25 @@ def load_data_pie(start_date, end_date, chain):
 # --- Load Data -----
 df_load_data_pie = load_data_pie(start_date, end_date, chain_filter)
 
-if df.empty:
+if df_load_data_pie.empty:
     st.warning("No data found for the selected filters.")
 else:
+    # ایجاد subplot با 1 ردیف و 2 ستون
+    fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]])
+
     # Pie Chart برای Volume
-    fig1 = px.pie(df_load_data_pie, values="VOLUME (USD)", names="SYMBOL", title="Bridge Volume By Token ($USD)")
-    st.plotly_chart(fig1, use_container_width=True)
+    fig1 = px.pie(df_load_data_pie, values="VOLUME (USD)", names="SYMBOL")
+    fig.add_trace(fig1.data[0], row=1, col=1)
 
     # Pie Chart برای Bridges
-    fig2 = px.pie(df_load_data_pie, values="BRIDGES", names="SYMBOL", title="Bridge Count By Token")
-    st.plotly_chart(fig2, use_container_width=True)
+    fig2 = px.pie(df_load_data_pie, values="BRIDGES", names="SYMBOL")
+    fig.add_trace(fig2.data[0], row=1, col=2)
+
+    # تنظیم layout برای جلوگیری از بیرون زدن متن‌ها
+    fig.update_layout(
+        title_text="Bridge Analysis",
+        margin=dict(t=50, b=50, l=50, r=50),
+        autosize=True
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
