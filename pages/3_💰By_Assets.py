@@ -700,7 +700,8 @@ FROM axelar_service
     """
     return pd.read_sql(query, conn)
 
-df = load_bridges_by_asset(start_date, end_date, time_frame)
+df = pd.read_sql(query, conn)
+# -- df = load_bridges_by_asset(start_date, end_date, time_frame)
 
 symbols = sorted(df["Symbol"].unique())
 selected_symbol = st.selectbox("Select Asset Symbol", symbols)
