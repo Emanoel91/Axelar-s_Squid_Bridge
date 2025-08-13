@@ -717,37 +717,44 @@ else:
     # --- Bar + Line Chart ---
     fig = go.Figure()
 
-    fig.add_trace(go.Bar(
-        x=df_filtered["Date"],
-        y=df_filtered["Volume of Bridges (USD)"],
-        name="Volume of Bridges (USD)",
-        yaxis="y1",
-        marker_color="skyblue"
-    ))
+# ستون‌ها با لیبل بالای آنها
+fig.add_trace(go.Bar(
+    x=df_filtered["Date"],
+    y=df_filtered["Volume of Bridges (USD)"],
+    name="Volume of Bridges (USD)",
+    yaxis="y1",
+    marker_color="skyblue",
+    text=df_filtered["Volume of Bridges (USD)"],  # متن لیبل
+    textposition='outside'  # نمایش بیرون ستون
+))
 
-    fig.add_trace(go.Scatter(
-        x=df_filtered["Date"],
-        y=df_filtered["Number of Bridges"],
-        name="Number of Bridges",
-        yaxis="y2",
-        mode="lines+markers",
-        marker=dict(color="orange")
-    ))
+# خط
+fig.add_trace(go.Scatter(
+    x=df_filtered["Date"],
+    y=df_filtered["Number of Bridges"],
+    name="Number of Bridges",
+    yaxis="y2",
+    mode="lines+markers",
+    marker=dict(color="orange")
+))
 
-    fig.update_layout(
-        title="Bridges By Asset Over Time",
-        xaxis=dict(title="Date"),
-        yaxis=dict(
-            title="Volume of Bridges (USD)",
-            side="left"
-        ),
-        yaxis2=dict(
-            title="Number of Bridges",
-            overlaying="y",
-            side="right"
-        ),
-        barmode="group",
-        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
-    )
+# تنظیمات
+fig.update_layout(
+    title="Bridges By Asset Over Time",
+    xaxis=dict(title="Date"),
+    yaxis=dict(
+        title="Volume of Bridges (USD)",
+        side="left"
+    ),
+    yaxis2=dict(
+        title="Number of Bridges",
+        overlaying="y",
+        side="right"
+    ),
+    barmode="group",
+    legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)"),
+    uniformtext_minsize=8,
+    uniformtext_mode='hide'
+)
 
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
