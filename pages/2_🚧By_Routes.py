@@ -129,8 +129,8 @@ def load_data(start_date, end_date):
 
       SELECT  
         created_at,
-        data:call.chain::STRING AS source_chain,
-        data:call.returnValues.destinationChain::STRING AS destination_chain,
+        lower(data:call.chain::STRING) AS source_chain,
+        lower(data:call.returnValues.destinationChain::STRING) AS destination_chain,
         data:call.transaction.from::STRING AS user,
 
         CASE 
