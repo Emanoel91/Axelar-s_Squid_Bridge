@@ -729,6 +729,7 @@ fig.add_trace(go.Bar(
 ))
 
 
+
 fig = go.Figure()
 
     fig.add_trace(go.Bar(
@@ -749,26 +750,19 @@ fig = go.Figure()
     ))
 
     fig.update_layout(
-    title="Bridges By Asset Over Time",
-    xaxis=dict(title="Date"),
-    yaxis=dict(
-        title="Volume of Bridges (USD)",
-        side="left"
-    ),
-    yaxis2=dict(
-        title="Number of Bridges",
-        overlaying="y",
-        side="right"
-    ),
-    barmode="group",
-    legend=dict(
-        orientation="h",   # افقی کردن
-        yanchor="bottom",
-        y=1.1,             # بالاتر از نمودار
-        xanchor="center",
-        x=0.5,
-        bgcolor="rgba(255,255,255,0)"
+        title="Bridges By Asset Over Time",
+        xaxis=dict(title="Date"),
+        yaxis=dict(
+            title="Volume of Bridges (USD)",
+            side="left"
+        ),
+        yaxis2=dict(
+            title="Number of Bridges",
+            overlaying="y",
+            side="right"
+        ),
+        barmode="group",
+        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
     )
-)
 
     st.plotly_chart(fig, use_container_width=True)
