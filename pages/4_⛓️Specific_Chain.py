@@ -844,14 +844,14 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
     )
     SELECT 
         DATE_TRUNC('{timeframe}', created_at) AS "DATE",
-        destination_chain AS "DESTINATION CHAIN", 
+       # -- destination_chain AS "DESTINATION CHAIN", 
         ROUND(SUM(amount_usd)) AS "VOLUME (USD)",
         COUNT(DISTINCT id) AS "BRIDGES"
     FROM overview
     WHERE created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
       {"AND LOWER(source_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
-    GROUP BY 1, 2
+    GROUP BY 1
     ORDER BY 1
     """
     return pd.read_sql(query, conn)
