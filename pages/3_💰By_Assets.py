@@ -710,7 +710,7 @@ else:
     symbols = sorted(df["Symbol"].unique())
     default_symbol = "USDC"
     default_index = symbols.index(default_symbol) if default_symbol in symbols else 0
-    selected_symbol = st.selectbox("Select Asset", symbols)
+    selected_symbol = st.selectbox("Select Asset (Defult: USDC)", symbols)
     df_filtered = df[df["Symbol"] == selected_symbol]
 
 
