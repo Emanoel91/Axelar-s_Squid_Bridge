@@ -584,3 +584,15 @@ else:
     # نمایش چارت‌ها در ستون‌های جداگانه
     col1.plotly_chart(fig1, use_container_width=True)
     col2.plotly_chart(fig2, use_container_width=True)
+
+# -----------------------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------------------
+
+st.markdown(
+    """
+    <div style="background-color:#e2ff88; padding:1px; border-radius:10px;">
+        <h2 style="color:#000000; text-align:center;">📥Default Destination Chain Results</h2>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
