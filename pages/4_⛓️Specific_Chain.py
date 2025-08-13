@@ -551,40 +551,27 @@ df_load_data_pie = load_data_pie(start_date, end_date, chain_filter)
 if df_load_data_pie.empty:
     st.warning("No data found for the selected filters.")
 else:
-    # ایجاد یک subplot با یک ردیف و دو ستون
-    fig = make_subplots(rows=1, cols=2, specs=[[{"type": "domain"}, {"type": "domain"}]],
-                        subplot_titles=("Bridge Volume By Token ($USD)", "Bridge Count By Token"))
+    # ایجاد دو ستون در Streamlit
+    col1, col2 = st.columns(2)
 
     # Pie Chart برای Volume
-    fig.add_trace(
-        go.Pie(
-            labels=df_load_data_pie["SYMBOL"],
-            values=df_load_data_pie["VOLUME (USD)"],
-            name="Volume",
-            textinfo="percent+label",
-            textposition="inside",
-            automargin=True
-        ),
-        row=1, col=1
+    fig1 = px.pie(
+        df_load_data_pie, 
+        values="VOLUME (USD)", 
+        names="SYMBOL", 
+        title="Bridge Volume By Token ($USD)"
     )
+    fig1.update_traces(textinfo="percent+label", textposition="inside", automargin=True)
 
     # Pie Chart برای Bridges
-    fig.add_trace(
-        go.Pie(
-            labels=df_load_data_pie["SYMBOL"],
-            values=df_load_data_pie["BRIDGES"],
-            name="Bridges",
-            textinfo="percent+label",
-            textposition="inside",
-            automargin=True
-        ),
-        row=1, col=2
+    fig2 = px.pie(
+        df_load_data_pie, 
+        values="BRIDGES", 
+        names="SYMBOL", 
+        title="Bridge Count By Token"
     )
+    fig2.update_traces(textinfo="percent+label", textposition="inside", automargin=True)
 
-    # تنظیم layout کلی
-    fig.update_layout(
-        margin=dict(t=50, b=50, l=50, r=50),
-        height=500
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+    # نمایش چارت‌ها در ستون‌های جداگانه
+    col1.plotly_chart(fig1, use_container_width=True)
+    col2.plotly_chart(fig2, use_container_width=True)
