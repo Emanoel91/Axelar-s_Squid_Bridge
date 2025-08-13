@@ -76,7 +76,11 @@ timeframe = st.selectbox("Select Time Frame", ["month", "week", "day"])
 start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
 end_date = st.date_input("End Date", value=pd.to_datetime("2025-07-31"))
 
-chain_options = ["All", "Ethereum", "Avalanche", "Polygon", "BSC", "Fantom", "Arbitrum", "Optimism", "Base"]
+chain_options = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche", "Babylon", "Base", "Binance", "Blast", 
+                 "C4e", "Celestia", "Celo", "Chihuahua", "Comdex", "Cosmoshub", "Elys", "Fantom", "Filecoin", "Fraxtal", "Immutable",
+                  "Injective", "Juno", "Kava", "Kujira", "Lava", "Linea", "Mantle", "Moonbeam", "Neutron", "Nolus", "Optimism",
+                  "Osmosis", "Persistence", "Polygon", "Regen", "Saga", "Scroll", "Sei", "Sommelier", "Stargaze", "Stride", "Teritori",
+                  "Terra", "Terra-2", "Umee", "Xion", "Xrol-evm"]
 chain_filter = st.selectbox(
     "Select Source Chain",
     options=chain_options,
