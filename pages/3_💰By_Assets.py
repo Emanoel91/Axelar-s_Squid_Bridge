@@ -728,18 +728,27 @@ fig.add_trace(go.Bar(
     textposition='outside'  # نمایش بیرون ستون
 ))
 
-# خط
-fig.add_trace(go.Scatter(
-    x=df_filtered["Date"],
-    y=df_filtered["Number of Bridges"],
-    name="Number of Bridges",
-    yaxis="y2",
-    mode="lines+markers",
-    marker=dict(color="orange")
-))
 
-# تنظیمات
-fig.update_layout(
+fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=df_filtered["Date"],
+        y=df_filtered["Volume of Bridges (USD)"],
+        name="Volume of Bridges (USD)",
+        yaxis="y1",
+        marker_color="skyblue"
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=df_filtered["Date"],
+        y=df_filtered["Number of Bridges"],
+        name="Number of Bridges",
+        yaxis="y2",
+        mode="lines+markers",
+        marker=dict(color="orange")
+    ))
+
+    fig.update_layout(
     title="Bridges By Asset Over Time",
     xaxis=dict(title="Date"),
     yaxis=dict(
@@ -752,9 +761,14 @@ fig.update_layout(
         side="right"
     ),
     barmode="group",
-    legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)"),
-    uniformtext_minsize=8,
-    uniformtext_mode='hide'
+    legend=dict(
+        orientation="h",   # افقی کردن
+        yanchor="bottom",
+        y=1.1,             # بالاتر از نمودار
+        xanchor="center",
+        x=0.5,
+        bgcolor="rgba(255,255,255,0)"
+    )
 )
 
-st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
