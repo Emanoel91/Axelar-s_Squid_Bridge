@@ -81,6 +81,11 @@ chain_filter = st.selectbox(
     options=["All"] + [
         "Ethereum", "Avalanche", "Polygon", "BSC", "Fantom", "Arbitrum", "Optimism", "Base"  # لیست نمونه
     ]
+    # پیش‌فرض روی Ethereum
+    chain_filter = st.selectbox(
+    "Select Source Chain",
+    options=chain_options,
+    index=chain_options.index("Ethereum")
 )
 # --- Cached Query Function ------------------------------------------------------------------------------------------
 @st.cache_data(ttl=3600)
