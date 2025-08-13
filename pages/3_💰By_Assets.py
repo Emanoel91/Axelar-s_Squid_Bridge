@@ -703,57 +703,49 @@ FROM axelar_service
 df = pd.read_sql(query, conn)
 # -- df = load_bridges_by_asset(start_date, end_date, time_frame)
 
-symbols = sorted(df["Symbol"].unique())
-selected_symbol = st.selectbox("Select Asset Symbol", symbols)
+# --- Dropdown for Symbol Selection ----------------------------------------------------------------------
+symbols = df["Symbol"].unique()
+selected_symbol = st.selectbox("Select Asset", sorted(symbols))
+
 df_filtered = df[df["Symbol"] == selected_symbol]
 
-import plotly.graph_objects as go
-
+# --- Bar-Line Chart --------------------------------------------------------------------------------------
 fig = go.Figure()
 
-# Bar - Volume
-fig.add_trace(
-    go.Bar(
-        x=df_filtered["Date"],
-        y=df_filtered["Volume of Bridges (USD)"],
-        name="Volume of Bridges (USD)",
-        marker_color='rgba(55, 83, 109, 0.7)',
-        yaxis='y1'
-    )
-)
+# Bar for Volume
+fig.add_trace(go.Bar(
+    x=df_filtered["Date"],
+    y=df_filtered["Volume of Bridges (USD)"],
+    name="Volume of Bridges (USD)",
+    yaxis="y1",
+    marker_color="skyblue"
+))
 
-# Line - Number of Bridges
-fig.add_trace(
-    go.Scatter(
-        x=df_filtered["Date"],
-        y=df_filtered["Number of Bridges"],
-        name="Number of Bridges",
-        mode='lines+markers',
-        line=dict(color='orange', width=2),
-        yaxis='y2'
-    )
-)
+# Line for Number of Bridges
+fig.add_trace(go.Scatter(
+    x=df_filtered["Date"],
+    y=df_filtered["Number of Bridges"],
+    name="Number of Bridges",
+    yaxis="y2",
+    mode="lines+markers",
+    marker=dict(color="orange")
+))
 
-# Layout
+# Layout settings
 fig.update_layout(
     title="Bridges By Asset Over Time",
     xaxis=dict(title="Date"),
     yaxis=dict(
         title="Volume of Bridges (USD)",
-        titlefont=dict(color='rgba(55, 83, 109, 1)'),
-        tickfont=dict(color='rgba(55, 83, 109, 1)'),
+        side="left"
     ),
     yaxis2=dict(
         title="Number of Bridges",
-        titlefont=dict(color='orange'),
-        tickfont=dict(color='orange'),
-        overlaying='y',
-        side='right'
+        overlaying="y",
+        side="right"
     ),
-    legend=dict(x=0.01, y=0.99, bgcolor='rgba(255,255,255,0)', bordercolor='rgba(0,0,0,0)'),
-    barmode='group',
-    height=500
+    barmode="group",
+    legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
