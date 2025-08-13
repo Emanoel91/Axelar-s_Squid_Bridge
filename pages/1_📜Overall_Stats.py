@@ -379,7 +379,7 @@ with col4:
         x="Date",
         y="Avg Bridges Volume per Txn",
         size="Avg Bridges Volume per Txn",
-        title="Avg Volume of Bridges Over Time"
+        title="Avg Volume of Bridges Over Time",
         labels={"Date": " ", "Avg Bridges Volume per Txn": "$USD"}
     )
     st.plotly_chart(fig4, use_container_width=True)
