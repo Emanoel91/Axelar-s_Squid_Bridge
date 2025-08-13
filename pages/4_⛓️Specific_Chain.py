@@ -598,20 +598,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-chain_options_dest = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche", "Babylon", "Base", "Binance", "Blast", 
+chain_options = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche", "Babylon", "Base", "Binance", "Blast", 
                  "C4e", "Celestia", "Celo", "Chihuahua", "Comdex", "Carbon", "Crescent", "Cosmoshub", "Elys", "Evmos", "Fetch", "Fantom", "Filecoin", "Fraxtal", "Immutable",
                   "Injective", "Juno", "Kava", "Kujira", "Lava", "Linea", "Mantle", "Moonbeam", "Neutron", "Nolus", "Optimism",
                   "Osmosis", "Persistence", "Polygon", "Regen", "Saga", "Scroll", "Sei", "Sommelier", "Stargaze", "Stride", "Teritori",
                   "Terra", "Terra-2", "Umee", "Secret", "Secret-snip", "Xpla", "Xion", "Xrol-evm"]
-chain_filter_dest = st.selectbox(
+chain_filter = st.selectbox(
     "Select Destination Chain",
-    options=chain_options_dest,
-    index=chain_options_dest.index("Ethereum")
+    options=chain_options,
+    index=chain_options.index("Ethereum")
 )
-
-# --- Row (4) ------------------------------------------------------------------------------------------
+# --- Row (1) ------------------------------------------------------------------------------------------
 @st.cache_data(ttl=3600)
-def load_data_dest(start_date, end_date, chain_):
+def load_data(start_date, end_date, chain):
     query = f"""
     WITH overview AS (
         WITH axelar_service AS (
@@ -726,21 +725,21 @@ FROM axelar_service
     FROM overview
     WHERE created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
-      {"AND LOWER(destination_chain) = LOWER('" + chain_ + "')" if chain_ != "All" else ""}
+      {"AND LOWER(destination_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
     GROUP BY 1
     ORDER BY 4 DESC
     """
     return pd.read_sql(query, conn)
 
 # --- Load Data ---
-df_ = load_data_dest(start_date, end_date, chain_filter_dest)
+df = load_data(start_date, end_date, chain_filter)
 
 # --- KPIs -------
 if not df.empty:
-    total_volume = df_["Volume (USD)"].sum()
-    avg_volume = df_["Avg Volume per Bridge (USD)"].mean()
-    total_bridges = df_["Bridges"].sum()
-    total_bridgors = df_["Bridgors"].sum()
+    total_volume = df["Volume (USD)"].sum()
+    avg_volume = df["Avg Volume per Bridge (USD)"].mean()
+    total_bridges = df["Bridges"].sum()
+    total_bridgors = df["Bridgors"].sum()
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Volume (USD)", f"${total_volume:,.0f}")
