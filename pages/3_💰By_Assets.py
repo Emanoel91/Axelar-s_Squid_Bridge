@@ -691,6 +691,7 @@ def load_bridges_by_asset(start_date, end_date, timeframe):
            COUNT(DISTINCT id) AS "Number of Bridges",
            ROUND(SUM(amount_usd)) AS "Volume of Bridges (USD)"
     FROM overview
+    where "Symbol" is not null
     GROUP BY 1, 2
     ORDER BY 1
     """
