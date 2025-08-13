@@ -733,14 +733,14 @@ FROM axelar_service
     return pd.read_sql(query, conn)
 
 # --- Load Data ---
-df = load_data_dest(start_date, end_date, chain_filter_dest)
+df_ = load_data_dest(start_date, end_date, chain_filter_dest)
 
 # --- KPIs -------
 if not df.empty:
-    total_volume = df["Volume (USD)"].sum()
-    avg_volume = df["Avg Volume per Bridge (USD)"].mean()
-    total_bridges = df["Bridges"].sum()
-    total_bridgors = df["Bridgors"].sum()
+    total_volume = df_["Volume (USD)"].sum()
+    avg_volume = df_["Avg Volume per Bridge (USD)"].mean()
+    total_bridges = df_["Bridges"].sum()
+    total_bridgors = df_["Bridgors"].sum()
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Volume (USD)", f"${total_volume:,.0f}")
