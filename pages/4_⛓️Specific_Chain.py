@@ -844,7 +844,7 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
     )
     SELECT 
         DATE_TRUNC('{timeframe}', created_at) AS "DATE",
-       # -- destination_chain AS "DESTINATION CHAIN", 
+        destination_chain AS "DESTINATION CHAIN", 
         ROUND(SUM(amount_usd)) AS "VOLUME (USD)",
         COUNT(DISTINCT id) AS "BRIDGES"
     FROM overview
