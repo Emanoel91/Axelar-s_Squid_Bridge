@@ -366,10 +366,10 @@ else:
     )
 
     fig.update_layout(
-        title="Volume vs Bridges Over Time",
-        xaxis=dict(title="Date"),
-        yaxis=dict(title="Volume (USD)", side="left"),
-        yaxis2=dict(title="Bridges", overlaying="y", side="right"),
+        title="Volume & Bridges Over Time",
+        xaxis=dict(title=" "),
+        yaxis=dict(title="$USD", side="left"),
+        yaxis2=dict(title="Txns count", overlaying="y", side="right"),
         legend=dict(x=0, y=1.1, orientation="h"),
         height=500
     )
