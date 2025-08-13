@@ -767,7 +767,8 @@ else:
             side="right"
         ),
         barmode="group",
-        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
+        #-- legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
+        legend=dict(x=0, y=1.2, orientation='h')
     )
 
     st.plotly_chart(fig, use_container_width=True)
