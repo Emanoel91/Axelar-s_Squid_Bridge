@@ -341,8 +341,8 @@ with col1:
     fig1.add_trace(go.Scatter(x=df_chart["Date"], y=df_chart["Cumulative Bridges Count"], name="Cumulative Bridges Count", mode="lines+markers", yaxis="y2"))
     fig1.update_layout(
         title="Number of Bridges Over Time",
-        yaxis=dict(title="Bridges"),
-        yaxis2=dict(title="Cumulative Bridges Count", overlaying="y", side="right"),
+        yaxis=dict(title="Txns count"),
+        yaxis2=dict(title="Txns count", overlaying="y", side="right"),
         barmode="group"
     )
     st.plotly_chart(fig1, use_container_width=True)
@@ -352,9 +352,9 @@ with col2:
     fig2.add_trace(go.Bar(x=df_chart["Date"], y=df_chart["Volume"], name="Volume", yaxis="y1"))
     fig2.add_trace(go.Scatter(x=df_chart["Date"], y=df_chart["Cumulative Bridges Volume"], name="Cumulative Bridges Volume", mode="lines+markers", yaxis="y2"))
     fig2.update_layout(
-        title="Bridges Volume Over Time",
-        yaxis=dict(title="Volume (USD)"),
-        yaxis2=dict(title="Cumulative Volume (USD)", overlaying="y", side="right"),
+        title="Volume of Bridges Over Time",
+        yaxis=dict(title="$USD"),
+        yaxis2=dict(title="$USD", overlaying="y", side="right"),
         barmode="group"
     )
     st.plotly_chart(fig2, use_container_width=True)
@@ -368,7 +368,8 @@ with col3:
         x="Date",
         y="Avg Bridges Volume per User",
         size="Avg Bridges Volume per User",
-        title="Avg Bridges Volume Per User Over Time"
+        title="Avg Bridges Volume Per User Over Time",
+        labels={"Date": " ", "Avg Bridges Volume per User": "$USD"}
     )
     st.plotly_chart(fig3, use_container_width=True)
 
@@ -379,6 +380,7 @@ with col4:
         y="Avg Bridges Volume per Txn",
         size="Avg Bridges Volume per Txn",
         title="Avg Volume of Bridges Over Time"
+        labels={"Date": " ", "Avg Bridges Volume per Txn": "$USD"}
     )
     st.plotly_chart(fig4, use_container_width=True)
 
@@ -487,7 +489,7 @@ with col1:
     fig_b1.update_layout(
         barmode="stack",
         title="Number of Bridgors Over Time",
-        yaxis=dict(title="Number of Bridgors")
+        yaxis=dict(title="Address count")
     )
     st.plotly_chart(fig_b1, use_container_width=True)
 
@@ -498,7 +500,7 @@ with col2:
     ))
     fig_b2.update_layout(
         title="Total New Bridgors Over Time",
-        yaxis=dict(title="Bridgors Growth")
+        yaxis=dict(title="Address count")
     )
     st.plotly_chart(fig_b2, use_container_width=True)
 
