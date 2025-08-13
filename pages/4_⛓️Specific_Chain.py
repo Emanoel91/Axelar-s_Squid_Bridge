@@ -850,7 +850,7 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
     FROM overview
     WHERE created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
-      {"AND LOWER(source_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
+      {"AND LOWER(destination_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
     GROUP BY 1, 2
     ORDER BY 1
     """
