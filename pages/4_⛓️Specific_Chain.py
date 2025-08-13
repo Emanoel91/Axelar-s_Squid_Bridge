@@ -338,24 +338,28 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
 df_vol_bridges = load_data_volume_bridges(start_date, end_date, chain_filter, timeframe)
 
 # --- Chart ---------
-if not df.empty:
+# Normalize column names to lowercase
+df.columns = [col.lower() for col in df.columns]
+
+# بررسی اینکه دیتافریم خالی نباشه
+if df.empty:
+    st.warning("No data found for the selected filters.")
+else:
     fig = go.Figure()
 
-    # Bar chart for Volume (USD) - left axis
     fig.add_trace(
         go.Bar(
-            x=df["Date"],
-            y=df["Volume (USD)"],
+            x=df["date"],
+            y=df["volume (usd)"],
             name="Volume (USD)",
             yaxis="y1"
         )
     )
 
-    # Line chart for Bridges - right axis
     fig.add_trace(
         go.Scatter(
-            x=df["Date"],
-            y=df["Bridges"],
+            x=df["date"],
+            y=df["bridges"],
             name="Bridges",
             mode="lines+markers",
             yaxis="y2"
@@ -365,20 +369,10 @@ if not df.empty:
     fig.update_layout(
         title="Volume vs Bridges Over Time",
         xaxis=dict(title="Date"),
-        yaxis=dict(
-            title="Volume (USD)",
-            side="left"
-        ),
-        yaxis2=dict(
-            title="Bridges",
-            overlaying="y",
-            side="right"
-        ),
+        yaxis=dict(title="Volume (USD)", side="left"),
+        yaxis2=dict(title="Bridges", overlaying="y", side="right"),
         legend=dict(x=0, y=1.1, orientation="h"),
-        bargap=0.2,
         height=500
     )
 
     st.plotly_chart(fig, use_container_width=True)
-else:
-    st.warning("No data available for the selected filters.")
