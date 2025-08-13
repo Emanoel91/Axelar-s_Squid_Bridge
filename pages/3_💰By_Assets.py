@@ -735,19 +735,19 @@ else:
     ))
 
     fig.update_layout(
-        title="Bridges By Asset Over Time",
-        xaxis=dict(title="Date"),
-        yaxis=dict(
-            title="Volume of Bridges (USD)",
-            side="left"
-        ),
-        yaxis2=dict(
-            title="Number of Bridges",
-            overlaying="y",
-            side="right"
-        ),
-        barmode="group",
-        legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
-    )
+    title="Bridges By Asset Over Time",
+    xaxis=dict(title="Date"),
+    yaxis=dict(
+        title="Volume of Bridges (USD)",
+        side="right"  # تغییر به right
+    ),
+    yaxis2=dict(
+        title="Number of Bridges",
+        overlaying="y",
+        side="right"
+    ),
+    barmode="group",
+    legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0)")
+)
 
     st.plotly_chart(fig, use_container_width=True)
