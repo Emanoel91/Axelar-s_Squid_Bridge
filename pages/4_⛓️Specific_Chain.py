@@ -551,22 +551,40 @@ df_load_data_pie = load_data_pie(start_date, end_date, chain_filter)
 if df_load_data_pie.empty:
     st.warning("No data found for the selected filters.")
 else:
-    # ایجاد subplot با 1 ردیف و 2 ستون
-    fig = make_subplots(rows=1, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}]])
+    # ایجاد یک subplot با یک ردیف و دو ستون
+    fig = make_subplots(rows=1, cols=2, specs=[[{"type": "domain"}, {"type": "domain"}]],
+                        subplot_titles=("Bridge Volume By Token ($USD)", "Bridge Count By Token"))
 
     # Pie Chart برای Volume
-    fig1 = px.pie(df_load_data_pie, values="VOLUME (USD)", names="SYMBOL")
-    fig.add_trace(fig1.data[0], row=1, col=1)
+    fig.add_trace(
+        go.Pie(
+            labels=df_load_data_pie["SYMBOL"],
+            values=df_load_data_pie["VOLUME (USD)"],
+            name="Volume",
+            textinfo="percent+label",
+            textposition="inside",
+            automargin=True
+        ),
+        row=1, col=1
+    )
 
     # Pie Chart برای Bridges
-    fig2 = px.pie(df_load_data_pie, values="BRIDGES", names="SYMBOL")
-    fig.add_trace(fig2.data[0], row=1, col=2)
+    fig.add_trace(
+        go.Pie(
+            labels=df_load_data_pie["SYMBOL"],
+            values=df_load_data_pie["BRIDGES"],
+            name="Bridges",
+            textinfo="percent+label",
+            textposition="inside",
+            automargin=True
+        ),
+        row=1, col=2
+    )
 
-    # تنظیم layout برای جلوگیری از بیرون زدن متن‌ها
+    # تنظیم layout کلی
     fig.update_layout(
-        title_text="Bridge Analysis",
         margin=dict(t=50, b=50, l=50, r=50),
-        autosize=True
+        height=500
     )
 
     st.plotly_chart(fig, use_container_width=True)
