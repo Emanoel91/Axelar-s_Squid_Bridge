@@ -321,10 +321,10 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
         FROM axelar_service
     )
     SELECT 
-        DATE_TRUNC('{timeframe}', created_at) AS "Date",
+        DATE_TRUNC('{timeframe}', created_at) AS "date",
         source_chain AS "Source Chain", 
-        ROUND(SUM(amount_usd)) AS "Volume (USD)",
-        COUNT(DISTINCT id) AS "Bridges"
+        ROUND(SUM(amount_usd)) AS "volume (usd)",
+        COUNT(DISTINCT id) AS "bridges"
     FROM overview
     WHERE created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
