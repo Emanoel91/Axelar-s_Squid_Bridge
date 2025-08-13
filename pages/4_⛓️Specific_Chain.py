@@ -338,47 +338,44 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
 df_vol_bridges = load_data_volume_bridges(start_date, end_date, chain_filter, timeframe)
 
 # --- Chart ---------
-if not df_vol_bridges.empty:
+if not df.empty:
     fig = go.Figure()
 
-    # Bar for Volume
-    fig.add_trace(go.Bar(
-        x=df_vol_bridges["Date"],
-        y=df_vol_bridges["Volume (USD)"],
-        name="Volume (USD)",
-        marker_color="rgba(55, 83, 109, 0.7)",
-        yaxis="y1"
-    ))
+    # Bar chart for Volume (USD) - left axis
+    fig.add_trace(
+        go.Bar(
+            x=df["Date"],
+            y=df["Volume (USD)"],
+            name="Volume (USD)",
+            yaxis="y1"
+        )
+    )
 
-    # Line for Bridges
-    fig.add_trace(go.Scatter(
-        x=df_vol_bridges["Date"],
-        y=df_vol_bridges["Bridges"],
-        name="Bridges",
-        mode="lines+markers",
-        line=dict(color="orange", width=2),
-        yaxis="y2"
-    ))
+    # Line chart for Bridges - right axis
+    fig.add_trace(
+        go.Scatter(
+            x=df["Date"],
+            y=df["Bridges"],
+            name="Bridges",
+            mode="lines+markers",
+            yaxis="y2"
+        )
+    )
 
-    # Layout with 2 y-axis
     fig.update_layout(
         title="Volume vs Bridges Over Time",
         xaxis=dict(title="Date"),
         yaxis=dict(
             title="Volume (USD)",
-            titlefont=dict(color="rgba(55, 83, 109, 1)"),
-            tickfont=dict(color="rgba(55, 83, 109, 1)"),
             side="left"
         ),
         yaxis2=dict(
             title="Bridges",
-            titlefont=dict(color="orange"),
-            tickfont=dict(color="orange"),
             overlaying="y",
             side="right"
         ),
-        legend=dict(x=0.01, y=0.99),
-        barmode="group",
+        legend=dict(x=0, y=1.1, orientation="h"),
+        bargap=0.2,
         height=500
     )
 
