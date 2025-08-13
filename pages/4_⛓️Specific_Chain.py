@@ -80,7 +80,7 @@ chain_options = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche"
                  "C4e", "Celestia", "Celo", "Chihuahua", "Comdex", "Carbon", "Crescent", "Cosmoshub", "Elys", "Evmos", "Fetch", "Fantom", "Filecoin", "Fraxtal", "Immutable",
                   "Injective", "Juno", "Kava", "Kujira", "Lava", "Linea", "Mantle", "Moonbeam", "Neutron", "Nolus", "Optimism",
                   "Osmosis", "Persistence", "Polygon", "Regen", "Saga", "Scroll", "Sei", "Sommelier", "Stargaze", "Stride", "Teritori",
-                  "Terra", "Terra-2", "Umee", "Secret", "Secret-snip", "Xpla" "Xion", "Xrol-evm"]
+                  "Terra", "Terra-2", "Umee", "Secret", "Secret-snip", "Xpla", "Xion", "Xrol-evm"]
 chain_filter = st.selectbox(
     "Select Source Chain",
     options=chain_options,
