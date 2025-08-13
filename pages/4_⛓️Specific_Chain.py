@@ -547,7 +547,8 @@ filtered_overview AS (
     FROM overview
     WHERE created_at >= '{start_date}'
       AND created_at <= '{end_date}'
-      AND ('{chain}' = 'All' OR LOWER(source_chain) = LOWER('{chain}'))
+      # -- AND ('{chain}' = 'All' OR LOWER(source_chain) = LOWER('{chain}'))
+      {"AND LOWER(source_chain) = LOWER('" + chain + "')" if chain != "All" else ""}
 )
 SELECT 
     source_chain AS "Source Chain",
