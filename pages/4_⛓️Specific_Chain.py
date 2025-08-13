@@ -596,3 +596,14 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+chain_options_ = ["All", "Ethereum", "Agoric", "Arbitrum", "Archway", "Avalanche", "Babylon", "Base", "Binance", "Blast", 
+                 "C4e", "Celestia", "Celo", "Chihuahua", "Comdex", "Carbon", "Crescent", "Cosmoshub", "Elys", "Evmos", "Fetch", "Fantom", "Filecoin", "Fraxtal", "Immutable",
+                  "Injective", "Juno", "Kava", "Kujira", "Lava", "Linea", "Mantle", "Moonbeam", "Neutron", "Nolus", "Optimism",
+                  "Osmosis", "Persistence", "Polygon", "Regen", "Saga", "Scroll", "Sei", "Sommelier", "Stargaze", "Stride", "Teritori",
+                  "Terra", "Terra-2", "Umee", "Secret", "Secret-snip", "Xpla", "Xion", "Xrol-evm"]
+chain_filter_ = st.selectbox(
+    "Select Destination Chain",
+    options=chain_options_,
+    index=chain_options_.index("Ethereum")
+)
