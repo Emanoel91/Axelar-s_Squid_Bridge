@@ -200,7 +200,7 @@ def load_data(start_date, end_date, chain):
         ) 
 )
 
-SELECT created_at, id, user, source_chain, destination_chain
+SELECT created_at, id, user, source_chain, destination_chain,
      "Service", amount, amount_usd, fee
 
 FROM axelar_service
@@ -711,7 +711,7 @@ def load_data(start_date, end_date, chain):
         ) 
 )
 
-SELECT created_at, id, user, source_chain, destination_chain
+SELECT created_at, id, user, source_chain, destination_chain,
      "Service", amount, amount_usd, fee
 
 FROM axelar_service
