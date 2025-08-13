@@ -611,7 +611,7 @@ chain_filter_ = st.selectbox(
 
 # --- Row (4) ------------------------------------------------------------------------------------------
 @st.cache_data(ttl=3600)
-def load_data_(start_date, end_date, chain):
+def load_data_dest(start_date, end_date, chain):
     query = f"""
     WITH overview AS (
         WITH axelar_service AS (
@@ -733,7 +733,7 @@ FROM axelar_service
     return pd.read_sql(query, conn)
 
 # --- Load Data ---
-df = load_data_(start_date, end_date, chain_filter_)
+df = load_data_dest(start_date, end_date, chain_filter_)
 
 # --- KPIs -------
 if not df.empty:
