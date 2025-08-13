@@ -704,16 +704,14 @@ with st.spinner("Loading Bridges By Asset..."):
 if df.empty:
     st.warning("No data for the selected range.")
 else:
+    # مرتب‌سازی و انتخاب Symbol
     df["Date"] = pd.to_datetime(df["Date"])
-df = df.sort_values("Date")
-symbols = sorted(df["Symbol"].unique())
-
-# اگر USDC در لیست وجود داشت، اون رو پیشفرض انتخاب کن
-default_symbol = "USDC"
-default_index = symbols.index(default_symbol) if default_symbol in symbols else 0
-
-selected_symbol = st.selectbox("Select Asset", symbols, index=default_index)
-df_filtered = df[df["Symbol"] == selected_symbol]
+    df = df.sort_values("Date")
+    symbols = sorted(df["Symbol"].unique())
+    default_symbol = "USDC"
+    default_index = symbols.index(default_symbol) if default_symbol in symbols else 0
+    selected_symbol = st.selectbox("Select Asset", symbols)
+    df_filtered = df[df["Symbol"] == selected_symbol]
 
 
     # --- Bar + Line Chart ---
