@@ -321,10 +321,10 @@ def load_data_volume_bridges(start_date, end_date, chain, timeframe):
         FROM axelar_service
     )
     SELECT 
-        DATE_TRUNC('{timeframe}', created_at) AS "date",
-        source_chain AS "Source Chain", 
-        ROUND(SUM(amount_usd)) AS "volume (usd)",
-        COUNT(DISTINCT id) AS "bridges"
+        DATE_TRUNC('{timeframe}', created_at) AS "DATE",
+        source_chain AS "SOURCE CHAIN", 
+        ROUND(SUM(amount_usd)) AS "VOLUME (USD)",
+        COUNT(DISTINCT id) AS "BRIDGES"
     FROM overview
     WHERE created_at::date >= '{start_date}'
       AND created_at::date <= '{end_date}'
@@ -349,8 +349,8 @@ else:
 
     fig.add_trace(
         go.Bar(
-            x=df["date"],
-            y=df["volume (usd)"],
+            x=df["DATE"],
+            y=df["VOLUME (USD)"],
             name="Volume (USD)",
             yaxis="y1"
         )
@@ -358,8 +358,8 @@ else:
 
     fig.add_trace(
         go.Scatter(
-            x=df["date"],
-            y=df["bridges"],
+            x=df["DATE"],
+            y=df["BRIDGES"],
             name="Bridges",
             mode="lines+markers",
             yaxis="y2"
