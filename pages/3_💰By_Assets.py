@@ -297,7 +297,8 @@ fig2 = px.bar(
     x="Symbol",
     y="Bridges",
     text="Bridges",
-    color="Symbol"
+    color="Symbol",
+    labels={"Symbol":" ","Bridges":"Txns count"}
 )
 fig2.update_traces(texttemplate='%{text:,.0f}', textposition='outside')
 fig2.update_layout(title="Top 10 Tokens by Bridges")
