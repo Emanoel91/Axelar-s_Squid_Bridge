@@ -284,10 +284,11 @@ fig1 = px.bar(
     x="Symbol",
     y="Volume (USD)",
     text="Volume (USD)",
-    color="Symbol"
+    color="Symbol",
+    labels={"Symbol":" ","Volume (USD)":"$USD"}
 )
 fig1.update_traces(texttemplate='%{text:,.0f}', textposition='outside')
-fig1.update_layout(title="Top 10 Tokens by Volume (USD)")
+fig1.update_layout(title="Top 10 Tokens by Volume ($USD)")
 
 # Top 10 by Bridges
 top_bridges = df.nlargest(10, "Bridges")
