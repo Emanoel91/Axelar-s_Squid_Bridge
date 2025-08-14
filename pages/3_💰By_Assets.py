@@ -758,11 +758,11 @@ else:
         title="Bridges By Asset Over Time",
         xaxis=dict(title="Date"),
         yaxis=dict(
-            title="Volume of Bridges (USD)",
+            title="$USD",
             side="left"
         ),
         yaxis2=dict(
-            title="Number of Bridges",
+            title="Txns count",
             overlaying="y",
             side="right"
         ),
