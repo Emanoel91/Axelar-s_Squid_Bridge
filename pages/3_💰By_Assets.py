@@ -706,7 +706,7 @@ with st.spinner("Loading Bridges By Asset..."):
 if df.empty:
     st.warning("No data for the selected range.")
 else:
-    # مرتب‌سازی و انتخاب Symbol
+    # sorting & choise Symbol
     df["Date"] = pd.to_datetime(df["Date"])
     df = df.sort_values("Date")
     symbols = sorted(df["Symbol"].unique())
