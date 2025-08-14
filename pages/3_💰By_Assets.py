@@ -293,7 +293,7 @@ fig1.update_layout(title="Top 10 Tokens by Volume ($USD)")
 # Top 10 by Bridges
 top_bridges = df.nlargest(10, "Bridges")
 fig2 = px.bar(
-    top_bridges,
+    top_bridges, 
     x="Symbol",
     y="Bridges",
     text="Bridges",
